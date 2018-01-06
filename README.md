@@ -1,7 +1,8 @@
 # Basic-Console-Base-Resistor-Sum-Calculator
 A Basic Console-Based Resistor-sum Calculator
 program for calculate circuit overall resistor written in c++
-Source file: Electric/Source1.cpp
+
+**Source file: Electric/Source1.cpp**
 
 ## How to use
 Because of limitation of console application, you've to input a circuit part by part.
