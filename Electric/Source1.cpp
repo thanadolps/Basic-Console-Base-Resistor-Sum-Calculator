@@ -22,39 +22,40 @@ enum CircuitType
 	SERIES,
 	PARALLEL,
 	RESISTER,
-	ERROR
 };
 
 /**
-	@param t 
-	@return CircuitType assosiated with t
+@param t
+@return CircuitType assosiated with t
 */
 CircuitType toType(char t)
 {
-	switch (t)
+	while (true)
 	{
-	case 'S':
-	case 's':
-		return SERIES;
-	case 'P':
-	case 'p':
-		return PARALLEL;
-	case 'R':
-	case 'r':
-	case 'C':
-	case 'c':
-		return RESISTER;
-	default:
-		print_padding();
-		cout << "Invaild Charactor, Try s,r,c or p" << endl;
-		return ERROR;
+		switch (t)
+		{
+		case 'S':
+		case 's':
+			return SERIES;
+		case 'P':
+		case 'p':
+			return PARALLEL;
+		case 'R':
+		case 'r':
+		case 'C':
+		case 'c':
+			return RESISTER;
+		default:
+			print_padding();
+			cout << "invalid CircuitType's char representation";
+		}
 	}
 }
 
-/** 
-	@brief print padding (indent) whose length depend on [indent_level]
+/**
+@brief print padding (indent) whose length depend on [indent_level]
 
-	print tabs to cout [inden_level] amount of time
+print tabs to cout [inden_level] amount of time
 */
 void print_padding()
 {
@@ -66,12 +67,12 @@ void print_padding()
 
 
 /**
-	Print a header text before executing wrapping function input_circuit_and_calculate_resistor()
-	header text is in format: Input({index}) where index come from parameter
-	It's handle indent_level by increment and decrement it before and after excuting input_circuit_and_calculate_resistor() respectivly
-	@brief function wrapper of input_circuit_and_calculate_resistor() used when inputting sub-circuit
-	@param i index to display in header
-	@return output from wrapping function: input_circuit_and_calculate_resistor()
+Print a header text before executing wrapping function input_circuit_and_calculate_resistor()
+header text is in format: Input({index}) where index come from parameter
+It's handle indent_level by increment and decrement it before and after excuting input_circuit_and_calculate_resistor() respectivly
+@brief function wrapper of input_circuit_and_calculate_resistor() used when inputting sub-circuit
+@param i index to display in header
+@return output from wrapping function: input_circuit_and_calculate_resistor()
 */
 float circuit_input_with_header(size_t i)
 {
@@ -84,12 +85,12 @@ float circuit_input_with_header(size_t i)
 }
 
 /**
-	@brief prompt input all sub-circuit and calculate overall resistance in series manner 
-	This function try to calculate sum of all of it's sub-circuit resistance
-	each of sub-circuit's resistance is found out by excuting circuit_input_with_header() 
-	therefor prompting user to input sub-circuit on the go
-	@param N Number of sub-circuit
-	@return Overall Resistance
+@brief prompt input all sub-circuit and calculate overall resistance in series manner
+This function try to calculate sum of all of it's sub-circuit resistance
+each of sub-circuit's resistance is found out by excuting circuit_input_with_header()
+therefor prompting user to input sub-circuit on the go
+@param N Number of sub-circuit
+@return Overall Resistance
 */
 float series(size_t N)
 {
@@ -97,18 +98,18 @@ float series(size_t N)
 	float sum = 0;
 	for (size_t i = 0; i < N; i++)
 	{
-		sum += circuit_input_with_header(i+1); // R = Sum = R1 + R2 + ...
+		sum += circuit_input_with_header(i + 1); // R = Sum = R1 + R2 + ...
 	}
 	return sum;
 }
 
 /**
-	@brief prompt input all sub-circuit and calculate overall resistance in parllel manner
-	This function calculate combine of all of it's sub-circuit resistance using parllel equation
-	each of sub-circuit's resistance is found out by excuting circuit_input_with_header()
-	therefor prompting user to input sub-circuit on the go
-	@param N Number of sub-circuit
-	@return Overall Resistance
+@brief prompt input all sub-circuit and calculate overall resistance in parllel manner
+This function calculate combine of all of it's sub-circuit resistance using parllel equation
+each of sub-circuit's resistance is found out by excuting circuit_input_with_header()
+therefor prompting user to input sub-circuit on the go
+@param N Number of sub-circuit
+@return Overall Resistance
 */
 float parallel(size_t N)
 {
@@ -116,32 +117,27 @@ float parallel(size_t N)
 	float sum = 0;
 	for (size_t i = 0; i < N; i++)
 	{
-		sum += 1/ circuit_input_with_header(i + 1); // 1/R = Sum = 1/R1 + 1/R2 + ...
+		sum += 1 / circuit_input_with_header(i + 1); // 1/R = Sum = 1/R1 + 1/R2 + ...
 	}
-	return 1/sum; // 1/Sum = 1/1/R = R
+	return 1 / sum; // 1/Sum = 1/1/R = R
 }
 
 /**
-	prompt sub-circuit when type is series (S) or parallel (P) and resistance value when type is resistor (C or R)
-	resistor resistance come from direct prompting 
-	series and parallel come from excuting series(N) or parallel(N) respectivly
-	those two function will endup calling input_circuit_and_calculate_resistor() again, making this recursive
-	@brief prompt input type of circuit and either number of sub-circuit or resistance value (depands on type) 
-	then calculate overall resistance value using it's type formula
-	@return Overall Resistance
+prompt sub-circuit when type is series (S) or parallel (P) and resistance value when type is resistor (C or R)
+resistor resistance come from direct prompting
+series and parallel come from excuting series(N) or parallel(N) respectivly
+those two function will endup calling input_circuit_and_calculate_resistor() again, making this recursive
+@brief prompt input type of circuit and either number of sub-circuit or resistance value (depands on type)
+then calculate overall resistance value using it's type formula
+@return Overall Resistance
 */
 float input_circuit_and_calculate_resistor()
 {
 	char c_type;
 	print_padding();
-
-	CircuitType type;
-
-	do {
-		cout << "Circuit Type: ";
-		cin >> c_type;
-		type = toType(c_type);
-	} while (type == ERROR);
+	cout << "Circuit Type: ";
+	cin >> c_type;
+	CircuitType type = toType(c_type);
 
 	print_padding();
 	switch (type)
@@ -158,7 +154,7 @@ float input_circuit_and_calculate_resistor()
 		{
 		case SERIES:
 			return series(N);
-				break;
+			break;
 		case PARALLEL:
 			return parallel(N);
 			break;
@@ -204,7 +200,7 @@ void guide()
 }
 
 /**
-	@brief main function, primally use for calling input_circuit_and_calculate_resistor() and display final output
+@brief main function, primally use for calling input_circuit_and_calculate_resistor() and display final output
 */
 int main()
 {
