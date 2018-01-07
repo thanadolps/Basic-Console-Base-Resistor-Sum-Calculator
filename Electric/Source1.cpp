@@ -22,6 +22,7 @@ enum CircuitType
 	SERIES,
 	PARALLEL,
 	RESISTER,
+	ERROR
 };
 
 /**
@@ -30,25 +31,23 @@ enum CircuitType
 */
 CircuitType toType(char t)
 {
-	while (true)
+	switch (t)
 	{
-		switch (t)
-		{
-		case 'S':
-		case 's':
-			return SERIES;
-		case 'P':
-		case 'p':
-			return PARALLEL;
-		case 'R':
-		case 'r':
-		case 'C':
-		case 'c':
-			return RESISTER;
-		default:
-			print_padding();
-			cout << "invalid CircuitType's char representation";
-		}
+	case 'S':
+	case 's':
+		return SERIES;
+	case 'P':
+	case 'p':
+		return PARALLEL;
+	case 'R':
+	case 'r':
+	case 'C':
+	case 'c':
+		return RESISTER;
+	default:
+		print_padding();
+		cout << "Invaild Charactor, Try s,r,c or p" << endl;
+		return ERROR;
 	}
 }
 
@@ -135,9 +134,14 @@ float input_circuit_and_calculate_resistor()
 {
 	char c_type;
 	print_padding();
-	cout << "Circuit Type: ";
-	cin >> c_type;
-	CircuitType type = toType(c_type);
+
+	CircuitType type;
+
+	do {
+		cout << "Circuit Type: ";
+		cin >> c_type;
+		type = toType(c_type);
+	} while (type == ERROR);
 
 	print_padding();
 	switch (type)
