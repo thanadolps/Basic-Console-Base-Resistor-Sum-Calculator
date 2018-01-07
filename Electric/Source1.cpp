@@ -24,6 +24,10 @@ enum CircuitType
 	RESISTER,
 };
 
+/**
+	@param t 
+	@return CircuitType assosiated with t
+*/
 CircuitType toType(char t)
 {
 	while (true)
@@ -131,7 +135,7 @@ float input_circuit_and_calculate_resistor()
 {
 	char c_type;
 	print_padding();
-	cout << "type: ";
+	cout << "Circuit Type: ";
 	cin >> c_type;
 	CircuitType type = toType(c_type);
 
@@ -142,7 +146,7 @@ float input_circuit_and_calculate_resistor()
 	case PARALLEL:
 		size_t N;
 
-		cout << "N: ";
+		cout << "Quantity: ";
 		cin >> N;
 
 		print_padding();
@@ -157,22 +161,58 @@ float input_circuit_and_calculate_resistor()
 		}
 	case RESISTER:
 		float R;
-		cout << "R:";
+		cout << "Resistance: ";
 		cin >> R;
 		return R;
 		break;
 	}
 }
 
+void guide()
+{
+	char g_type;
+	cout << "Need a guide? (Y for Yes | Others for No) : ";
+	cin >> g_type;
+
+	if (g_type == 'Y') {
+		cout << endl;
+		cout << "--Guide--" << endl;
+		cout << endl;
+		cout << "This calculator can calculate the summary of resistance in finite circuit." << endl;
+		cout << endl;
+		cout << "Start with looking a circuit in a big picture, it should be in Series, Parallel or Single resistor." << endl;
+		cout << endl;
+		cout << "Firstly, type off the type of the circuit from looking it in the big picture." << endl;
+		cout << endl;
+		cout << "Type S or s for Series circuit." << endl;
+		cout << "Type P or p for Parallel circuit." << endl;
+		cout << "Type R or r for Single Resistor" << endl;
+		cout << endl;
+		cout << "After that, you need to put in the quantity of the type of circuit you lastly put in." << endl;
+		cout << endl;
+		cout << "Then start submitting the rest of the circuit with the same code : S,s,P,p,R,r" << endl;
+		cout << endl;
+		cout << "Want a full guide? Visit : https://goo.gl/yRyjyB" << endl;
+	}
+	cout << endl;
+	cout << "-----------------------" << endl;
+	cout << endl;
+}
 
 /**
 	@brief main function, primally use for calling input_circuit_and_calculate_resistor() and display final output
 */
 int main()
 {
-	cout << "Program Start" << endl;
+	guide();
 	float out = input_circuit_and_calculate_resistor();
-	cout << endl << "Output: " << out;
+	cout << "--------------------" << endl;
+	cout << "Output: " << out;
+	cout << endl;
+	cout << "--------------------" << endl;
+	cout << endl;
+	cout << endl;
+	cout << "Input anything to end the program." << endl;
 
 	// Stop Program from Instant Termination
 	char c;
