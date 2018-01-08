@@ -9,7 +9,6 @@ const int MAX_STRING_INPUT = 10;
 
 // TODO: AUTO NUMBERING
 // TODO[HARD]: Direct input of R in type (int/char reconize)
-// TODO: re-input after wrong type inputting
 // TODO: string type inputting (accept series,parallel as a word as a option)
 
 float input_circuit_and_calculate_resistor();
@@ -54,13 +53,16 @@ CircuitType toType(char t)
 /**
 @brief print padding (indent) whose length depend on [indent_level]
 
-print tabs to cout [inden_level] amount of time
+print tabs to cout [indent_level] amount of time
 */
 void print_padding()
 {
-	for (size_t i = 0; i < indent_level; i++)
+	for (int i = indent_level - 1; i >= 0; i--)
 	{
-		cout << "\t";
+		if(i == 0)
+			cout << "|---";
+		else
+			cout << "    ";
 	}
 }
 
@@ -112,7 +114,7 @@ therefor prompting user to input sub-circuit on the go
 */
 float parallel(size_t N)
 {
-	cout << "parallel" << endl;
+	cout << "Parallel" << endl;
 	float sum = 0;
 	for (size_t i = 0; i < N; i++)
 	{
@@ -140,6 +142,7 @@ float input_circuit_and_calculate_resistor()
 		cout << "Circuit Type: ";
 		cin >> c_type;
 		type = toType(c_type);
+
 	} while (type == ERROR);
 
 	print_padding();
@@ -199,7 +202,58 @@ void guide()
 	}
 	cout << endl;
 	cout << "-----------------------" << endl;
-	cout << endl;
+	// cout << endl;
+}
+
+float prompt_resistance()
+{
+	char y_or_n;
+	cout << "Do you've overall resistance? (Y for Yes | Others for No) : ";
+	cin >> y_or_n;
+	if(y_or_n == 'y')
+		return input_circuit_and_calculate_resistor();
+	else
+	{
+		cout << "Resistance: ";
+		float resistance;
+		cin >> resistance;
+		return resistance;
+	}
+}
+
+void calculate_power(float R)
+{
+	char option;
+	cout << "V for Volt Input, I for Ampare Input";
+	cin >> option;
+
+	while (true)
+	{
+		switch (option)
+		{
+		case 'V':
+		case 'v':
+			float V;
+			cout << "V: ";
+			cin >> V;
+			cout << "I: " << V / R << endl;
+			cout << "P: " << (V * V) / R << endl;
+			return;
+		case 'I':
+		case 'i':
+		case 'A':
+		case 'a':
+			float I;
+			cout << "I: ";
+			cin >> I;
+			cout << "V: " << I * R << endl;
+			cout << "P: " << I * I * R << endl;
+			return;
+		default:
+			cout << "Please Input V or I";
+			break;
+		}
+	}
 }
 
 /**
@@ -208,12 +262,17 @@ void guide()
 int main()
 {
 	guide();
-	float out = input_circuit_and_calculate_resistor();
+	float resistance = prompt_resistance();
 	cout << "--------------------" << endl;
-	cout << "Output: " << out;
-	cout << endl;
+	cout << "Resistance: " << resistance << " Ohm" << endl;
 	cout << "--------------------" << endl;
-	cout << endl;
+
+	char option;
+	cout << "Power cal? (Y for Yes | Others for No):";
+	cin >> option;
+	if(option == 'Y' || option == 'y')
+		calculate_power(resistance);
+
 	cout << endl;
 	cout << "Input anything to end the program." << endl;
 
