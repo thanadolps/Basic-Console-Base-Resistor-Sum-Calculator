@@ -211,14 +211,15 @@ float prompt_resistance()
 	cout << "Do you've overall resistance? (Y for Yes | Others for No) : ";
 	cin >> y_or_n;
 	if(y_or_n == 'y')
-		return input_circuit_and_calculate_resistor();
-	else
 	{
 		cout << "Resistance: ";
 		float resistance;
 		cin >> resistance;
 		return resistance;
 	}
+	else
+		return input_circuit_and_calculate_resistor();
+
 }
 
 void calculate_power(float R)
